@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+    <title>Sonsuza kadar... ❤️</title>
+    <style>
+        :root { --ana-renk: #ff4d6d; --ikincil-renk: #ff758f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            background: radial-gradient(circle, #ffafbd 0%, #ffc3a0 100%);
+            font-family: 'Poppins', sans-serif; overflow: hidden;
+        }
+
+        .container {
+            z-index: 10; background: rgba(255, 255, 255, 0.9); padding: 35px;
+            border-radius: 40px; backdrop-filter: blur(15px); box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            max-width: 450px; width: 92%; text-align: center; border: 1px solid rgba(255, 255, 255, 0.4);
+            position: relative; /* Butonun bu kart içinde kalması için önemli */
+            min-height: 450px; 
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .photo-frame {
+            width: 140px; height: 140px; margin: 10px auto; border: 6px solid white;
+            border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,0.1); overflow: hidden;
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        h1 { color: var(--ana-renk); margin-bottom: 10px; font-size: 1.6rem; line-height: 1.2; }
+        .timer { font-size: 0.85rem; color: #666; margin-bottom: 15px; font-weight: bold; }
+
+        /* BUTON TASARIMLARI */
+        button { 
+            background: var(--ana-renk); color: white; border: none; padding: 12px 25px; 
+            border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+
+        #evet-btn { background: #2ecc71; font-size: 1.1rem; z-index: 11; position: relative; }
+        
+        #hayir-btn { 
+            background: #e74c3c; 
+            position: absolute; /* Karta göre konumlanması için */
+            z-index: 999; 
+            width: 90px; /* Sabit boyut büyüme sorununu çözer */
+            height: 45px;
+            display: flex; justify-content: center; align-items: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            touch-action: none;
+            right: 50px; bottom: 60px; /* Başlangıç konumu */
+        }
+
+        .not-kutusu { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
+        .kart { width: 50px; height: 50px; background: white; border-radius: 15px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 1.4rem; box-shadow: 0 5px 10px rgba(0,0,0,0.05); transition: 0.3s; }
+        .kart:hover { transform: scale(1.1); background: var(--ana-renk); }
+
+        .bg-heart { position: absolute; color: rgba(255, 77, 109, 0.2); pointer-events: none; z-index: 1; animation: floatUp linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(110vh) scale(0); opacity: 0; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }
+        #future-part, #game-area { display: none; width: 100%; }
+        .custom-alert { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 20px; z-index: 1000; width: 85%; border: 2px solid var(--ana-renk); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+    <audio id="sarkimiz" loop><source src="OSURUK.MP3" type="audio/mpeg"></audio>
+
+    <div class="container" id="main-card">
+        <div id="celebration-part">
+            <h1>Sevgililer Günümüz Kutlu Olsun Bebeğimm ❤️</h1>
+            <div class="photo-frame"><img src="puuung-kiss-puuung.gif"></div>
+            <div id="timer" class="timer">Yükleniyor...</div>
+            <div class="not-kutusu">
+                <div class="kart" onclick="showMsg('Hayatımda tek şanslı olduğum yer seninle tanışmamdı bebeğim')">🌸</div>
+                <div class="kart" onclick="showMsg('Seni izlemeye doyamıyorumm sanırım öpmeye de doyamicam ')">✨</div>
+                <div class="kart" onclick="showMsg('Sen varken her şey daha güzel')">💌</div>
+            </div>
+            <button onclick="goFuture()">Devam Et</button>
+        </div>
+
+        <div id="future-part">
+            <h1>Seni cooook seviyorumm</h1>
+            <div class="photo-frame"><img src="puuung-kiss-puuung.gif"></div>
+            <p style="margin-bottom: 10px; font-size: 0.9rem;">Sana alacak bir hediyem olmadığı için umarım bunu kabul edersin</p>
+            <p>Seninle yaşlanmak dünyadaki en büyük dileğim</p>
+            <button onclick="teklifeGec()">Asıl Soruma Gelelim</button>
+        </div>
+
+        <div id="game-area">
+            <h1 id="soru">Benimle evlenir misin 💍</h1>
+            <p id="alt-metin" style="margin-bottom: 60px;">Bu hayata beraber devam edelim mi bebeğimm</p>
+            <div style="display: flex; justify-content: center; width: 100%; height: 50px;">
+                <button id="evet-btn" onclick="nextQuestion()">EVET!</button>
+                <button id="hayir-btn" onmouseover="runAway()" onclick="runAway()">Hayır</button>
+            </div>
+        </div>
+
+        <div id="customAlert" class="custom-alert">
+            <p id="alertText" style="color: var(--ana-renk); font-weight: bold;"></p>
+            <button onclick="closeMsg()" style="margin-top: 15px; padding: 5px 15px; font-size: 0.8rem;">Kapat</button>
+        </div>
+    </div>
+
+    <script>
+        const sifre = prompt("Bu kalp kime ait?");
+        if (sifre !== "tuğçearin<3") {
+            alert("Hatalı cevap! Burası sadece ikimize özel.");
+            document.body.innerHTML = "<h1>Giriş Yetkiniz Yok ❤️</h1>";
+        }
+        // Sayaç ve Kalpler
+        const start = new Date(2025, 11, 7);
+        setInterval(() => {
+            const diff = new Date() - start;
+            const days = Math.floor(diff / 86400000);
+            document.getElementById('timer').innerText = `${days} gündür hayatımın anlamısın...`;
+        }, 1000);
+
+        setInterval(() => {
+            const h = document.createElement('div');
+            h.innerHTML = '❤️'; h.className = 'bg-heart';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+        }, 400);
+
+        function showMsg(text) { document.getElementById('alertText').innerText = text; document.getElementById('customAlert').style.display = 'block'; }
+        function closeMsg() { document.getElementById('customAlert').style.display = 'none'; }
+        function goFuture() { document.getElementById('celebration-part').style.display = 'none'; document.getElementById('future-part').style.display = 'block'; }
+        
+        function teklifeGec() {
+            document.getElementById('sarkimiz').play();
+            document.getElementById('future-part').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+        }
+
+        // KART İÇİNDE KAÇMA FONKSİYONU
+        function runAway() {
+            const btn = document.getElementById('hayir-btn');
+            const card = document.getElementById('main-card');
+            
+            // Kartın iç boyutları
+            const cardWidth = card.clientWidth;
+            const cardHeight = card.clientHeight;
+
+            // Butonun boyutları
+            const btnWidth = btn.offsetWidth;
+            const btnHeight = btn.offsetHeight;
+
+            // Kartın dışına taşmaması için sınırları belirle (20px pay bırak)
+            const padding = 20;
+            const maxX = cardWidth - btnWidth - padding;
+            const maxY = cardHeight - btnHeight - padding;
+
+            // Rastgele yeni koordinatları üret
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            // Uygula
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+        }
+
+        const questions = ["Emin misin", "Bak son kararın mı 🤔", "Sonsuza kadar benimle mi ❤️", "O zaman... Hadi kutlayalım 😍"];
+        let qIndex = 0;
+
+        function nextQuestion() {
+            if (qIndex < questions.length - 1) {
+                document.getElementById('soru').innerText = questions[qIndex];
+                qIndex++;
+                document.getElementById('evet-btn').style.transform = `scale(${1 + qIndex * 0.3})`;
+            } else {
+                showFinal();
+            }
+        }
+
+        function showFinal() {
+            const hb = document.getElementById('hayir-btn');
+            if(hb) hb.remove();
+            document.getElementById('main-card').innerHTML = `
+                <h1 style="color: #2ecc71;">SONSUZA DEK! 🎉</h1>
+                <div class="photo-frame"><img src="images2.jpg"></div>
+                <h2 style="color: var(--ana-renk); margin-top:15px;">seni çok seviyorum!</h2>
+                <p>En güzel Sevgililer Günü hediyemi aldım ❤️</p>
+            `;
+        }
+
+        // Mobilde dokunmatik desteği
+        document.getElementById('hayir-btn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            runAway();
+        });
+    </script>
+</body>
+</html>
